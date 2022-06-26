@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\Manga;
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,6 +39,23 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('user')->name('user.')->
             'mangas' => Manga::orderBy('updated_at', 'desc')->get()
         ]);
     })->name('manga');
+
+    Route::get('/manga/add', function () {
+        return Inertia::render('Manga/AddNewManga', []);
+    })->name('manga.add');
+
+    Route::post('/manga', function (Request $request) {
+        
+        //dd(Request::all());
+        $validated_data = $request->validate([
+            'project_url' => ['required', 'url']
+        ]);
+        //dd($validated_data);
+        $validated_data['user_id'] = Auth::id();
+        // dd($validated_data);
+        Manga::create($validated_data);
+        return to_route('manga');
+    })->name('manga.store');
 
     // other admin routes here
 });

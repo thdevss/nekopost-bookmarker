@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('mangas', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('project_id');
-            $table->integer('latest_chapter_id');
-            $table->integer('latest_chapter_no');
+            $table->string('name')->nullable();
+            $table->integer('project_id')->nullable();
+            $table->integer('latest_chapter_id')->nullable();
+            $table->integer('latest_chapter_no')->nullable();
             $table->integer('image_version')->default(0);
-
+            $table->string('project_url');
             $table->foreignId('user_id');
-            $table->boolean('is_new');
+            $table->boolean('is_new')->default(0);
             $table->timestamps();
         });
     }

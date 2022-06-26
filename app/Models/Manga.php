@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Manga extends Model
 {
     use HasFactory;
+    protected $fillable = ['project_url', 'user_id', 'name', 'project_id', 'latest_chapter_id', 'latest_chapter_no', 'image_version', 'is_new'];
+
 }

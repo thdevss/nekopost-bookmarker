@@ -4,7 +4,7 @@
         <template #header>
             <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
                 Manga
-                <a class="px-4 bg-sky-900 text-white rounded-md float-right" style="font-size:14px;" href="#">Add new +</a>
+                <a class="px-4 bg-sky-900 text-white rounded-md float-right" style="font-size:14px;" :href="route('user.manga.add')" :active="route().current('user.manga.add')">Add new +</a>
             </h2>
             
         </template>
@@ -82,12 +82,12 @@ import { defineComponent } from "vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 
 export default defineComponent({
-  components: {
-    AppLayout,
-  },
-  /* 👇 Pass the photos array as a props 👇 */
-  props: {
-    mangas: Array,
-  },
+    components: {
+        AppLayout,
+    },
+
+    props: {
+        mangas: Array,
+    },
 });
 </script>
