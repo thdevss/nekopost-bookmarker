@@ -1,2 +1,2 @@
 # nekopost-bookmarker
-Bookmarker for nekopost
+Bookmarker for nekopost, for educational purposes only
