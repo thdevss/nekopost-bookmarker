@@ -1,5 +1,15 @@
+/vendor
+composer.phar
+composer.lock
+.DS_Store
+Thumbs.db
+/phpunit.xml
+/.idea
+/.vscode
+.phpunit.result.cache
+
 /vendor/
-node_modules/
+/node_modules/
 npm-debug.log
 yarn-error.log
 
