@@ -45,16 +45,12 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('user')->name('user.')->
     })->name('manga.add');
 
     Route::post('/manga', function (Request $request) {
-        
-        //dd(Request::all());
         $validated_data = $request->validate([
             'project_url' => ['required', 'url']
         ]);
-        //dd($validated_data);
         $validated_data['user_id'] = Auth::id();
-        // dd($validated_data);
         Manga::create($validated_data);
-        return to_route('manga');
+        return to_route('user.manga');
     })->name('manga.store');
 
     // other admin routes here

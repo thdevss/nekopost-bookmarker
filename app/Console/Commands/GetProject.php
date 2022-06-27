@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
+
 use App\Models\Manga;
 
 class GetProject extends Command
@@ -32,6 +34,32 @@ class GetProject extends Command
         //  - parse project_url and grab only project_id
         //  - go to: https://api.osemocphoto.com/frontAPI/getProjectInfo/${project_id}
         //  - save information to db
+        
+        foreach(Manga::where('project_id', null)->get() as $manga) {
+            // cut only project_id
+            $project_id = explode('/manga/', $manga['project_url']);
+            // dd($project_id);
+            if(count($project_id) != 2) {
+                return;
+            }
+
+            $project_id = explode("/", $project_id[1])[0];
+
+            $response = Http::get("https://api.osemocphoto.com/frontAPI/getProjectInfo/".$project_id);
+            // dd($response->json());
+
+            $manga->project_id = $response->json()['projectInfo']['projectId'];
+            $manga->name = $response->json()['projectInfo']['projectName'];
+            $manga->latest_chapter_id = $response->json()['listChapter'][0]['chapterId'];
+            $manga->latest_chapter_no = $response->json()['listChapter'][0]['chapterNo'];
+            $manga->image_version = $response->json()['projectInfo']['imageVersion'];
+            $manga->is_new = 1;
+            $manga->save();
+
+
+
+        }
+        
         return 0;
     }
 }
