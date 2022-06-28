@@ -18,13 +18,19 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->integer('project_id')->nullable();
             $table->integer('latest_chapter_id')->nullable();
-            $table->integer('latest_chapter_no')->nullable();
+            $table->string('latest_chapter_no')->nullable();
             $table->integer('image_version')->default(0);
             $table->string('project_url');
             $table->foreignId('user_id');
             $table->boolean('is_new')->default(0);
             $table->timestamps();
+            $table->timestamp('scraped_at')->nullable();
         });
+
+        Schema::table('mangas', function (Blueprint $table) {
+            $table->unique(['project_id', 'user_id']);
+        });
+        
     }
 
     /**

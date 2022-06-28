@@ -49,12 +49,16 @@ const logout = () => {
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <JetNavLink :href="route('user.dashboard')" :active="route().current('user.dashboard')">
+                                <!-- <JetNavLink :href="route('user.dashboard')" :active="route().current('user.dashboard')">
                                     Dashboard
-                                </JetNavLink>
+                                </JetNavLink> -->
 
                                 <JetNavLink :href="route('user.manga')" :active="route().current('user.manga')">
                                     All Manga
+                                </JetNavLink>
+
+                                <JetNavLink :href="route('user.manga.add')" :active="route().current('user.manga.add')">
+                                    Add new Manga
                                 </JetNavLink>
 
                             </div>

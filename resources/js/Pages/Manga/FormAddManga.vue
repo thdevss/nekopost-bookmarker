@@ -20,7 +20,11 @@ const addNewMangaURL = () => {
 
     form.post(route('user.manga.store'), {
         errorBag: 'addNewMangaURL',
-        preserveScroll: true
+        preserveScroll: true,
+        onSuccess: () => {
+            alert('added, please wait bot update 2-3 minute after')
+            form.project_url = ''
+        }
     });
 };
 

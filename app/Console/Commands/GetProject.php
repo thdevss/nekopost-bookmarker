@@ -40,13 +40,18 @@ class GetProject extends Command
             $project_id = explode('/manga/', $manga['project_url']);
             // dd($project_id);
             if(count($project_id) != 2) {
-                return;
+                $manga->delete();
+                continue;
             }
 
             $project_id = explode("/", $project_id[1])[0];
 
             $response = Http::get("https://api.osemocphoto.com/frontAPI/getProjectInfo/".$project_id);
             // dd($response->json());
+            if(!$response->json()['projectInfo']) {
+                $manga->delete();
+                continue;
+            }
 
             $manga->project_id = $response->json()['projectInfo']['projectId'];
             $manga->name = $response->json()['projectInfo']['projectName'];
@@ -54,7 +59,17 @@ class GetProject extends Command
             $manga->latest_chapter_no = $response->json()['listChapter'][0]['chapterNo'];
             $manga->image_version = $response->json()['projectInfo']['imageVersion'];
             $manga->is_new = 1;
-            $manga->save();
+            $manga->scraped_at = date('Y-m-d H:i:s');
+
+            try {
+                $manga->save();
+            } catch(\Illuminate\Database\QueryException $err){ 
+
+                if($err->getCode() == "23000") {
+                    // duplicate project, deleted this.
+                    $manga->delete();
+                }
+            }
 
 
 

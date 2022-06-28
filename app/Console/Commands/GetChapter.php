@@ -38,12 +38,18 @@ class GetChapter extends Command
         // 	- check chapterId > db.chapterId
         // 	- if true, updated and notify it.
         $response = Http::get("https://api.osemocphoto.com/frontAPI/getLatestChapter/m/0");
+        if(!$response->json()['listChapter']) {
+            echo 'no update';
+            return;
+        }
+
         foreach($response->json()['listChapter'] as $manga) {
             Manga::where('project_id', $manga['projectId'])->update([
                 'latest_chapter_id' => $manga['chapterId'],
                 'latest_chapter_no' => $manga['chapterNo'],
                 'image_version' => $manga['imageVersion'],
-                'is_new' => 1
+                'is_new' => 1,
+                'scraped_at' => date('Y-m-d H:i:s')
             ]);
         }
 
