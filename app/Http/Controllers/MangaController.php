@@ -15,6 +15,9 @@ class MangaController extends Controller
     public function index()
     {
         //
+        return Inertia::render('Manga/AllManga', [
+            'mangas' => Manga::where('user_id', Auth::id())->whereNotNull('project_id')->orderBy('scraped_at', 'desc')->paginate(5)->get()
+        ]);
     }
 
     /**

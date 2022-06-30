@@ -46,6 +46,9 @@
                                     </div>
                                 </div>
 
+                                <pagination class="mt-6" :links="usersList.links" />
+
+
                             </div>
                                         
                           </div>
@@ -60,10 +63,13 @@
 <script>
 import { defineComponent } from "vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
+import Pagination from '@/Components/Pagination'
+
 
 export default defineComponent({
     components: {
         AppLayout,
+        Pagination
     },
 
     props: {

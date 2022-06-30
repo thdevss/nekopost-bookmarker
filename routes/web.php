@@ -4,6 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\Manga;
+use App\Controllers\MangaController;
 use Illuminate\Http\Request;
 
 /*
@@ -35,11 +36,10 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('user')->name('user.')->
         return to_route('user.manga');
     })->name('dashboard');
 
-    Route::get('/manga', function () {
-        return Inertia::render('Manga/AllManga', [
-            'mangas' => Manga::where('user_id', Auth::id())->whereNotNull('project_id')->orderBy('scraped_at', 'desc')->get()
-        ]);
-    })->name('manga');
+    Route::get('/mangas', [
+        MangaController::class, 'index'
+    ])->name('manga');
+
 
     Route::get('/manga/add', function () {
         return Inertia::render('Manga/AddNewManga', []);
