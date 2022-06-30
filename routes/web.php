@@ -4,7 +4,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\Manga;
-use App\Controllers\MangaController;
+use App\Http\Controllers\MangaController;
 use Illuminate\Http\Request;
 
 /*

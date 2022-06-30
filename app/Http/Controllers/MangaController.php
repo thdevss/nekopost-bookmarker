@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Manga;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Illuminate\Foundation\Application;
+use \Auth;
 
 class MangaController extends Controller
 {
@@ -15,8 +18,10 @@ class MangaController extends Controller
     public function index()
     {
         //
+        $mangas = Manga::where('user_id', Auth::id())->whereNotNull('project_id')->orderBy('scraped_at', 'desc')->paginate(5);
+        // dd($mangas);
         return Inertia::render('Manga/AllManga', [
-            'mangas' => Manga::where('user_id', Auth::id())->whereNotNull('project_id')->orderBy('scraped_at', 'desc')->paginate(5)->get()
+            'mangas' => $mangas
         ]);
     }
 

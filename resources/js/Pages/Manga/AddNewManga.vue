@@ -7,7 +7,7 @@ import FormAddManga from './FormAddManga.vue';
 </script>
 
 <template>
-    <AppLayout title="Profile">
+    <AppLayout title="Add New Manga">
 
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
