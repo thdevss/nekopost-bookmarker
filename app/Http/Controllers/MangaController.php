@@ -25,14 +25,32 @@ class MangaController extends Controller
         ]);
     }
 
+    public function to_reader(Request $request, $id)
+    {
+        $manga = Manga::where('user_id', Auth::id())->whereNotNull('project_id')->where('id', $id)->first();
+        if($manga->latest_chapter_no && $manga->project_id) {
+            $manga->is_new = 0;
+            $manga->save();
+            return redirect("https://www.nekopost.net/manga/{$manga->project_id}/{$manga->latest_chapter_no}");
+        }
+
+        return abort(404);
+    }    
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         //
+        $validated_data = $request->validate([
+            'project_url' => ['required', 'url']
+        ]);
+        $validated_data['user_id'] = Auth::id();
+        Manga::create($validated_data);
+        return to_route('user.manga.add');
     }
 
     /**
