@@ -1,8 +1,8 @@
-LABEL authors="copy from: Nimat Razmjo, edit by: thdevss"
-
-
 #Server Dependencies
 FROM composer:latest as vendor
+
+LABEL authors="copy from: Nimat Razmjo, edit by: thdevss"
+
 
 WORKDIR /app
 
