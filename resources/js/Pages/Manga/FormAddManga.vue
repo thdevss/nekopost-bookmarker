@@ -22,7 +22,7 @@ const addNewMangaURL = () => {
         errorBag: 'addNewMangaURL',
         preserveScroll: true,
         onSuccess: () => {
-            alert('added, please wait bot update 2-3 minute after')
+            // alert('added, please wait bot update 2-3 minute after')
             form.project_url = ''
         }
     });

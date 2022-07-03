@@ -9,6 +9,8 @@ import JetDropdownLink from '@/Jetstream/DropdownLink.vue';
 import JetNavLink from '@/Jetstream/NavLink.vue';
 import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink.vue';
 
+import NotificationBox from '@/Components/NotificationBox.vue'
+
 defineProps({
     title: String,
 });
@@ -250,4 +252,5 @@ const logout = () => {
             </main>
         </div>
     </div>
+    <NotificationBox />
 </template>

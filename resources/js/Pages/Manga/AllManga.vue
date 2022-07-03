@@ -15,7 +15,7 @@
                             <div class="flex flex-wrap -mx-1 lg:-mx-5">
 
                                 <!-- Column -->
-                                <div class="my-1 px-1 w-full md:w-1/2 lg:my-5 lg:px-5 lg:w-1/5" v-for="manga in mangas.data" :key="manga.id" >
+                                <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/4" v-for="manga in mangas.data" :key="manga.id" >
 
                                     <MangaBox :manga="manga" />
 

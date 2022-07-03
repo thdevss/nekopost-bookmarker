@@ -17,25 +17,12 @@ class MangaController extends Controller
      */
     public function index()
     {
-        //
-        $mangas = Manga::where('user_id', Auth::id())->whereNotNull('project_id')->orderBy('scraped_at', 'desc')->paginate(5);
-        // dd($mangas);
+        $mangas = Manga::where('user_id', Auth::id())->whereNotNull('project_id')->orderBy('scraped_at', 'desc')->paginate(4);
         return Inertia::render('Manga/AllManga', [
             'mangas' => $mangas
         ]);
     }
-
-    public function to_reader(Request $request, $id)
-    {
-        $manga = Manga::where('user_id', Auth::id())->whereNotNull('project_id')->where('id', $id)->first();
-        if($manga->latest_chapter_no && $manga->project_id) {
-            $manga->is_new = 0;
-            $manga->save();
-            return redirect("https://www.nekopost.net/manga/{$manga->project_id}/{$manga->latest_chapter_no}");
-        }
-
-        return abort(404);
-    }    
+ 
 
     /**
      * Show the form for creating a new resource.
@@ -45,12 +32,7 @@ class MangaController extends Controller
     public function create(Request $request)
     {
         //
-        $validated_data = $request->validate([
-            'project_url' => ['required', 'url']
-        ]);
-        $validated_data['user_id'] = Auth::id();
-        Manga::create($validated_data);
-        return to_route('user.manga.add');
+        return Inertia::render('Manga/AddNewManga', []);
     }
 
     /**
@@ -62,6 +44,17 @@ class MangaController extends Controller
     public function store(Request $request)
     {
         //
+        $validated_data = $request->validate([
+            'project_url' => ['required', 'url']
+        ]);
+        $validated_data['user_id'] = Auth::id();
+        Manga::create($validated_data);
+        // return to_route('user.manga.add');
+        return redirect()->route('user.manga')->with('notification', [
+            'color' => 'green',
+            'title' => 'Added!',
+            'message'=> 'added, please wait bot update 2-3 minute after'
+        ]);
     }
 
     /**
@@ -73,29 +66,15 @@ class MangaController extends Controller
     public function show(Manga $manga)
     {
         //
-    }
+        // dd($manga);
+        if($manga->user_id === Auth::id() && $manga->latest_chapter_no && $manga->project_id) {
+            $manga->is_new = 0;
+            $manga->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Manga  $manga
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Manga $manga)
-    {
-        //
-    }
+            return Inertia::location("https://www.nekopost.net/manga/{$manga->project_id}/{$manga->latest_chapter_no}");
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Manga  $manga
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Manga $manga)
-    {
-        //
+        return abort(403);
     }
 
     /**
@@ -107,5 +86,12 @@ class MangaController extends Controller
     public function destroy(Manga $manga)
     {
         //
+        $manga->delete();
+        // return to_route('user.manga');
+        return redirect()->back()->with('notification', [
+            'color' => 'green',
+            'title' => 'Deleted!',
+            'message'=> 'this manga you choose was deleted.',
+        ]);
     }
 }

@@ -31,14 +31,10 @@ Route::middleware(['auth:sanctum', 'verified'])->prefix('user')->name('user.')->
     })->name('dashboard');
 
     Route::get('/manga', [MangaController::class, 'index'])->name('manga');
-
-
-    Route::get('/manga/add', function () {
-        return Inertia::render('Manga/AddNewManga', []);
-    })->name('manga.add');
-
-    Route::post('/manga', [MangaController::class, 'create'])->name('manga.store');
-    Route::get('/manga/go/{id}', [MangaController::class, 'to_reader'])->name('manga.go');
+    Route::get('/manga/add', [MangaController::class, 'create'])->name('manga.add');
+    Route::post('/manga', [MangaController::class, 'store'])->name('manga.store');
+    Route::get('/manga/{manga}', [MangaController::class, 'show'])->name('manga.show');
+    Route::delete('/manga/{manga}', [MangaController::class, 'destroy'])->name('manga.destroy');
 
 
     // other admin routes here
